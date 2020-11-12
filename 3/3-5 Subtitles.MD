@@ -6,7 +6,7 @@ Welcome to our class. Today our topics are
 # How to manage data in Docker?
 By default all files created inside a container are stored on a writable container layer. This means that:
 - The data doesn’t persist when that container remove
-- A container’s writable layer is tight to the docker host machine where the container is running. 
+- A container’s writable layer is tight to the docker host box 
 - Writing into a container’s writable layer requires a storage driver.  The storage driver  reduces performance as compared to using data volumes, which write directly to the host filesystem. 
 
 There are two types of data. One data need to Persist, the other one data is temporary data.
@@ -15,7 +15,8 @@ There are two types of data. One data need to Persist, the other one data is tem
 - Temp  
   Temporary data usually for app local cache.
 # Three ways to mount data on Docker
-## Mount Type:
+## Mount Type:clear
+
 - bind mounts is Persist data
 - volumes is Persist data
 - tmpfs is Temporary data
