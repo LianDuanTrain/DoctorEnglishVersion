@@ -14,7 +14,7 @@ Welcome to our class. Today our topics are
   ![avatar](https://docs.docker.com/storage/images/types-of-mounts.png) 
    
 ### Bind mounts
---mount tag  
+--mount  
 `--mount type=bind,source="$(pwd)"/html,target=/usr/share/nginx/html/`   
 - Creat Html file in html folder
 
@@ -41,7 +41,7 @@ Welcome to our class. Today our topics are
 `docker volume inspect htmlContent`
 - Copy Html file to htmlContent  
 - Run a nginx container with volume <br>                   
-`docker run -d -it --name myNginx -p 7777:80 --mount source=htmlContent,target=/usr/share/nginx/html/ nginx:latest` 
+`docker container run -d -it --name myNginx -p 7777:80 --mount source=htmlContent,target=/usr/share/nginx/html/ nginx:latest` 
 - Inspect the nginx container  
 `docker inspect myNginx`  
 - Verify
@@ -50,7 +50,7 @@ Welcome to our class. Today our topics are
 - Stop the nginx Container  
 `docker container stop myNginx`  
 - Docker auto create Volume   
-`docker run -d -it --name myNginx -p 7777:80 --mount source=htmlContent2,target=/usr/share/nginx/html/nginx:latest` 
+`docker container run -d -it --name myNginx -p 7777:80 --mount source=htmlContent2,target=/usr/share/nginx/html/nginx:latest` 
 - Verify   
 `docker volume ls`  
 `docker volume inspect htmlContent2`  
@@ -58,7 +58,7 @@ Welcome to our class. Today our topics are
 `docker volume rm htmlContent`  
 ### tmpfs 
 - temp mount  
-`docker run -d -it --name myNginx -p 7777:80 --rm --mount type=tmpfs,target=/app nginx:latest` 
+`docker container run -d -it --name myNginx -p 7777:80 --rm --mount type=tmpfs,target=/app nginx:latest` 
 - Verify        
 `docker inspect myNginx`  
 `docker container stop myNginx`    
