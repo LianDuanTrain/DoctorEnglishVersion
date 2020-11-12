@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .myDiv {        
+          text-align: center;
+          font-size: 40px;
+        }
+        </style>
+</head>
+<body>
+    <div class="myDiv">Docker Images vs Containers</div>
+    <div  class="myDiv"><img src="http://www.shellhacks.com/wp-content/uploads/sharing-layers-700x422.jpg" alt=""></div>
+    Image from http://www.shellhacks.com/wp-content/uploads/sharing-layers-700x422.jpg
+    <!--
+    
+  Let me introduce the difference between container and image:
+    Simply put, a container is a running image. the image is a blueprint for the container 
+
+ Multiple containers can be based on one image. 
+For example, Jetty image, we start multiple containers based on Jetty image in a docker engine.
+    We can also see how many layers of the image . For example, the Jetty image has four layers.
+ When starting the containers based on this image, each container has a readable and writable file layer. Of course, if you stop the container,  readable and writable leayer will be lost.
+    
+    How to save some persistent content in the container. I will be introduced in future courses. 
+
+    -->
+</body>
+</html>

@@ -1,0 +1,15 @@
+4-1 Image Management
+    docker pull nginx:1.19.2
+    docker image ls (docker images)
+    docker image tag nginx:1.19.2 mynginx:v1
+    docker image inspect mynginx:v1
+    docker image inspect nginx:1.19.2
+    docker image history nginx:1.19.2
+    docker image prune
+    docker image rm
+    docker search
+    docker image build
+    docker push
+FYI:
+https://docs.docker.com/engine/reference/commandline/image/
+

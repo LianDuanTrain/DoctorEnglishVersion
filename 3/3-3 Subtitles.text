@@ -1,0 +1,96 @@
+
+Welcome to our class. Today we will learn Docker Network. There two topics, Docker network concept and demo
+####################################################################
+First topic, Docker network concept
+    Docker Default Networking (docker0)
+    When Docker is installed, a default bridge network named  docker0 is created. Each new Docker container is automatically attached to this network, unless a custom network is specified.
+    Besides  docker0  , two other networks get created automatically by Docker:  host   and  none 
+
+    The most common network types being:  bridge,  overlay, and  macvlan.
+        bridge
+            Bridge networking is the most common network type. It is limited to containers within a single host running the Docker engine. 
+            Bridge networks are easy to create, manage and troubleshoot.
+            For the containers on bridge network to communicate from the outside world, port mapping needs to be configured.
+            As an example, consider you can have a Docker container running a web service on port  5000. 
+            Because this container is attached to the bridge network on a private subnet, a port on the host system like  8000  needs to be mapped to port  5000 on the container for outside traffic to reach the web service.
+                For example Docker Network diagram:
+                    Docker Network Image - http://img.scoop.it/bmExZyvGWidultcwx9hCb7nTzqrqzN7Y9aBZTaXoQ8Q=
+                    lets go through the diagram from bottom to top.
+                    external network is physical Network, 
+                    eth0(docker0) is getway of docker network, and open a port  8000 
+                    mybridge has two containers, db and web. the containers are able to talk to each other.
+                    web container listener port is 5000, and map to eth0 port 8000
+        host
+            no isolation between host and containers on this network, to the outside world they are on the same network
+        overlay
+            An overlay network uses software virtualization to create additional layers of the network running on top of a physical network. 
+            In Docker, an overlay network driver is used for multi-host network communication.
+            Docker Swarm makes use of overlay networks for inter-host communication.
+            Kubernetes approaches networking in a different way as compared to Docker, using native concepts like services and pods.
+        macvlan
+            The macvlan driver is used to connect Docker containers directly to the host network interfaces through layer 2 segmentation.
+            No use of port mapping or network address translation (NAT) is needed.
+            Containers can be assigned a public IP address which is accessible from the outside world. 
+            Latency in macvlan networks is low since packets are routed directly from Docker host network interface controller (NIC) to the containers..
+        none
+            attached containers run on container-specific network stack
+    
+####################################################################
+Second topic, demo.
+    I go to Default Bridge first, docker0:
+            docker network ls shows existing docker network in your system.
+            There are a lot of Ls commands in Docker Client. docker image ls docker container ls, docker volume ls. The pattern is docker + component name + ls
+                docker network ls
+            docker network inspect bridge can get more bridge detail
+                docker network inspect bridge
+                    subnet mask calculator
+                    http://jodies.de/ipcalc?host=172.17.0.0&mask1=16&mask2=
+            Containers area able to ping  each other in default  bridge, called the ping by hostname
+            Do a testing, alpine  is the smallest Linux image. 
+                docker run -itd --rm --name=alpine1 alpine 
+                docker run -itd --rm --name=alpine2 alpine
+                docker exec -it alpine1 /bin/sh
+                    hostname
+                    apk add  net-tools
+                docker exec -it alpine2 /bin/sh
+                    hostname
+                    apk add  net-tools
+                ping {containerName}   
+                ping ip
+                    
+                cat /etc/hosts
+                There is host mapping IP in the file so    
+                cat /etc/resolv.conf 
+                the name server is my wireless router, the router does not have my container infomatation
+            docker container stop alpine1 
+            docker container stop alpine2
+     
+    Next, Create a custom Network, the type is Bridge. The command is docker network create --driver bridge alpine-net
+                docker network create --driver bridge alpine-net
+            Go to the alpine-net detail
+                docker network inspect alpine-net
+                    Subnet is different then bridge
+            To use the custom Network, only need add  --network in   docker run command       
+                docker run -itd --rm --name=apline1 --network=alpine-net alpine
+                docker run -itd --rm --name=apline2 --network=alpine-net alpine
+            Run  docker network inspect again
+                docker network inspect alpine-net
+            docker  attach vs docker  exec   
+            attach go into container as thread 0, if you exit container, the container stop 
+                docker container attach  apline1  
+                docker container attach  apline2
+                 hostname
+                    apk add  net-tools
+                        ping ip
+                        ping {containerName}  
+                            cat /etc/hosts
+                            cat /etc/resolv.conf 
+            How to remove container from a net work                 
+                docker network disconnect alpine-net apline1
+                docker network disconnect alpine-net apline2
+                    docker network inspect alpine-net
+            The latest command for today's class, delete a  newwork     
+            docker network rm alpine-net
+####################################################################
+Thank you for watching, see you in the next class.
+

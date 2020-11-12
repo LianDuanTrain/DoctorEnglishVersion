@@ -1,0 +1,42 @@
+4-3 First Dockerfile
+Create a Image
+    mkdir mynginx 
+    cd mynginx
+    touch Dockerfile
+        Dockerfile
+            FROM nginx:1.19.2
+            RUN echo '<h1>Hello, First Docker Image!</h1>' > /usr/share/nginx/html/index.html	
+        docker build -t dl0218/mynginx:v1 .  
+    Or 
+        docker build -t dl0218/mynginx:v1  -<<"EOF"
+        FROM nginx:1.19.2
+        RUN echo '<h1>Hello, First Docker Image!</h1>' > /usr/share/nginx/html/index.html            			
+        EOF
+Push Image
+    docker-hub
+        docker login
+        docker push<hub-user>/<repo-name>:<tag>
+        docker push dl0218/mynginx:v1
+    Private Docker Repository
+        docker tag dl0218/mynginx:v1 192.168.31.197:5000/mynginx:v1
+        docker push 192.168.31.197:5000/mynginx:v1
+        curl -XGET http://localhost:5000/v2/_catalog
+        curl -XGET http://localhost:5000/v2/_catalog
+        curl -XGET http://localhost:5000/v2/{image}/tags/list
+        curl -XGET http://localhost:5000/v2/mynginx/manifests/v1
+        curl -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X GET  http://localhost:5000/v2/mynginx/manifests/v1 2>&1 | grep Docker-Content-Digest | awk '{print ($3)}'
+        curl -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X DELETE http://localhost:5000/v2/mynginx/manifests/sha256:476403cba594cb5fb834d58c7a3f81afb5e5b463702a8c91db77289d38a32043
+        docker exec -it localDockerRegistry  /bin/registry garbage-collect  /etc/docker/registry/config.yml
+Image inspect        
+    docker image inspect dl0218/mynginx:v1
+Add More Commands    
+    DockerfileV2
+        FROM nginx:1.19.2
+        MAINTAINER  Lian@XXX.com
+        LABEL version="1.0" description="Test Build Docker Image" by="Lian"
+        RUN echo '<h1>Hello, mynginx!</h1>' > /usr/share/nginx/html/index.html
+    docker build -t dl0218/mynginx:v2 -f DockerfileV2 . 
+    docker tag dl0218/mynginx:v2 192.168.31.197:5000/mynginx:v2
+    docker push 192.168.31.197:5000/mynginx:v2
+    docker image inspect dl0218/mynginx:v2
+

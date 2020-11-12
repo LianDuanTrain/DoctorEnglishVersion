@@ -1,0 +1,42 @@
+5-1 First Docker Compose
+Docker run  Convert to Docker compose
+https://8gwifi.org/dc1.jsp
+https://www.composerize.com/
+
+docker container run -d --name microsservicv1 --rm -p 9999:9999  microsservic:v1 
+
+docker-compose.yml
+version: '3.3'
+services:
+    myapp:
+        container_name: microsservicv1
+        ports:
+            - '9999:9999'
+        image: 'microsservic:v1'
+
+CMD:
+    docker-compose up -d
+    docker-compose down
+    docker-compose images
+    docker-compose start
+    docker-compose stop
+    docker-compose logs microsservicv1
+FYI:
+https://docs.docker.com/compose/compose-file/
+
+docker-composeV1.yml
+version: '3'
+services:
+  myapp:
+    build:
+     context: .
+     dockerfile: MicrosserviceDockerFileV1
+    container_name: microsservicv1  
+    ports:
+    - 9999:9999
+CMD:
+docker-compose -f docker-composeV1.yml up -d
+docker-compose -f docker-composeV1.yml  down
+
+
+

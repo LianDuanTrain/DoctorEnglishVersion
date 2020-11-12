@@ -1,0 +1,59 @@
+Welcome to our class. Today we have a 3 subjects, start up a container, stop a  container, use Docker extension of VS Code.
+Before starting our class check docker service status to make sure docker service running.
+Status is Active and green.
+########################################################
+First topic start up a container.
+docker image pull jetty:9.4.31-jre8 
+    docker image pull the jetty image. the image tag is 9.4.31-jre8. the command can download jetty image 9.4.31-jre8 from docker hub to local box or VM.  
+    The image has eight layers.
+    There is a download progress.
+    Round command again, there's no download progress anymore  because if docker-engine find the image your local, docker-engine use the local image first.
+
+How to use the image to start have a container? docker container run Plus image name and tag
+docker container run jetty:9.4.31-jre8 
+container is running
+let's check the container status - docker container ps
+container it is a unique identifier for container
+command is a container entry point
+container  name is a random name
+
+docker container exec -it {containerID} /bin/bash
+
+Docker container exec can access  container internal
+-it  means  open Terminal where's the interactive mode
+/bin/bash is the login point for command
+
+docker container exec -it ed54a6c1bcfc /bin/bash
+
+next check jetty status, curl localhost:8080. 
+
+I didn't create a homepage in jetty so I'm running into 404 page no found. no problem.
+########################################################
+Second  topic stop and clear up a container
+docker container stop plus {containerID}
+docker container stop ed54a6c1bcfc
+docker container ls -a is able to list stoped container
+docker container ls is only show running container
+
+
+There is no difference between docker ps and docker container ls. The new command structure (docker container <subcommand>) was added in Docker 1.13 to provider a more structured user experience when using the command line.
+
+Spring Clean up coming
+ delete container -  docker container rm {containerID}
+ docker container ls -a
+ delete image -  docker rmi jetty:9.4.31-jre8
+
+########################################################
+Latest  topic Docker extension of VS Code
+Open SSH first
+extension search docker
+install remote
+
+docker container run jetty:9.4.31-jre8 
+
+####################################################################
+Today we studied
+start up a container, stop and clean up a  container, use VS Code Docker extension  manager Docker.
+
+Thank you for watching, see you in the next class.
+

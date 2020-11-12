@@ -1,0 +1,77 @@
+Welcome to our class. Today we are focus on the container management 
+
+####################################################################
+login to my docker  linux box.
+In the previous class, I started a container with a random name, I have to use a container ID to stop the container.
+Docker support adds a container name parameter when container startup.
+The parameter is --name
+    docker container run --name web jetty:9.4.31-jre8 
+Check docker container status
+    docker container ls 
+Container name should be unique,  unique means the name should be unique in  running container and stop  container
+    docker container run --name web jetty:9.4.31-jre8 
+Stop the container      
+    docker container stop web
+
+Simple test for container unique name, I try to reuse the stoped container name.
+    docker container run --name web jetty:9.4.31-jre8
+    Conflict. The container name "/web" is already in use by container  
+Container name cannot be reused even the container has stopped
+
+####################################################################
+Next, Restart a stop Continer
+    docker container restart web
+
+How to stop a container, is easy. run     
+    docker container rm web
+
+About commands Docker container is running in the thread, while，  when I close the terminal， container  is stopped.
+Docker container Detached mode, shown by the option --detach or -d, means that a Docker container runs in the background of your terminal. It does not receive input or display output.
+Such as :
+    docker container run -d --name web jetty:9.4.31-jre8
+Check container status:
+    docker container ls  -f "name=web"   -f means filer, I add container name filter as  -f "name=web"  
+
+####################################################################
+There are two way can stop a container， kill and stop. What difference?
+docker stop attempts to stop the container and all the main process to cleanup before shutting down
+docker kill command stops the main process immediately
+For example, I find a container spends too much memory and docker stop does not work. I'll use docker kill.
+    docker top web
+    docker events
+
+####################################################################
+Move on to next command docker exec 
+docker exec command is able to access a running container，exec command has one parameter -it, it menas interactive terminal,   web is container name /bin/bash is Continer login point.
+For logoff containe,  Ctrl + c or input exit
+
+####################################################################
+After a container is stopped I have to run a rm command to remove the container. 
+To award the rm command I can add -rm as a parameter when container startup.
+The magic parameter will be delete container after the container stop. Let's try
+    docker container run -d --rm --name web jetty:9.4.31-jre8
+
+####################################################################
+Docker inspect provides detailed information of container, the command output is JSON format.
+    docker container inspect web 
+--format can help us find a specific information, such as Cantina IP  
+    docker container inspect web   --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 
+--format is depend on output put a JSON structure. The other way pipe command + grep
+    docker container inspect web | grep IP
+
+####################################################################
+docker log command
+docker logs plus containerName, the log captures the entire STDOUT and STDERR streams.
+    docker container logs web
+####################################################################
+Export/Inport
+    docker container export web -o jettybackup.tar  
+    -o means output 
+logic is I export a container and input container as image
+I will talk image Management in next chapter   
+
+####################################################################
+
+####################################################################
+Thank you for watching, see you in the next class.
+

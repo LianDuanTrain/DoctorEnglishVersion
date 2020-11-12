@@ -1,0 +1,14 @@
+3-6 Data Container
+    --volumes-from
+        docker run -d -it --name myData  --mount type=bind,source="$(pwd)"/html,target=/usr/share/nginx/html/ alpine:latest   
+        docker exec -it myData /bin/sh
+        cd /usr/share/nginx/html/
+        docker run -d -it --name myNginx -p 7777:80 --rm --volumes-from myData nginx:latest
+        docker container stop  myData
+        docker container stop  myNginx
+       
+       
+
+        
+    
+        

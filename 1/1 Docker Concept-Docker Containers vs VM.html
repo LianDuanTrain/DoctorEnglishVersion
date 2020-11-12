@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .myDiv {        
+          text-align: center;
+          font-size: 40px;
+          
+          font-color:
+        }
+        </style>
+</head>
+<body>
+    <div class="myDiv">Docker Containers vs VM</div>
+    <div  class="myDiv"><img src="https://i1.wp.com/www.docker.com/blog/wp-content/uploads/Blog.-Are-containers-..VM-Image-1-1024x435.png?ssl=1" alt=""></div>
+    Image from https://i1.wp.com/www.docker.com/blog/wp-content/uploads/Blog.-Are-containers-..VM-Image-1-1024x435.png?ssl=1
+    <!--
+	What is the difference between the container and VM?
+	
+    The VM is a virtual machine, virtualize enter the operating system on your physical box so the more memory, hard disk, CPU resource then Docker.
+Docker container is ruining the top of the darker engine so Docker needs the memory, CPU, hard disk, resourceless than the virtual machine.
+Usually, Docker startup speed is in seconds, while a virtual startup in minutes.
+
+In traditional software development, how do we deliver our software like the below steps: dev deliver software with the installer, QA install and configure the software on their VM or physical box, and test. after software pass testing by QA, the data center install and configure the software on their VM. VM by VM, customer by customer. 
+
+During the installation process, we provide a Related configuration interface, and we are putting some of the dependent libraries into OS level.
+
+This is the traditional installation process. the process causes a lot of problems. 
+
+For example, our software developers' environment, QA test environment, and data center environment are in different operating system versions or different operating system patches. The difference can cause strange problems.  And hard to analyze and fix.
+especially when operating and maintaining many VM or machines.
+
+
+
+Docker is born in 2014.   
+ The Docker solves the problem. 
+Developer create docker image, the image includes the operating system, depending libs, and software. Everything configured.
+Next Developer pushes the docker image to the repertory. 
+QA gets the docker image and test. After image pass by QA. Data Center run the docker in production env.
+
+Docker images and containers are native for cloud, the docker is a revolution for SDLC.
+
+Of course, Docker is not a Silver bullet. 
+For example, its security is not as good as that of a virtual machine, because its engine runs on your operating system, and your application can directly access files on the operating system through the Docker engine.
+
+    There are some scenarios that are not suitable for Docker such as databases.
+    The above is the main difference between Docker and virtual machine, and their applicable scenarios
+    -->
+</body>
+</html>
