@@ -1,5 +1,5 @@
 # Summary
-Welcome to our class. Today our topics is Data Container 
+Welcome to our class. Today our topic is Data Container 
 # Data Container
 - Create a HTMl page in html folder
 - Create a data container   

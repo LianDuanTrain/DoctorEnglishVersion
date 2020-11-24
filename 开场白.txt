@@ -1,0 +1,41 @@
+开场白：
+
+hello and welcome to this session on docker volumes and this is going to be a very easy and interesting session
+or
+so in this video we're gonna learn about docker volumes in a natural docker volumes
+
+
+
+
+I believe docker volumes is very important and useful concept and with this session we will make it very easy and interesting and
+after this session you will be knowing all about volumes and how do we create attach and share volumes. how to ... hoe to ...
+
+
+and then we will also see what are bind mounts so in docker whenever you create a container 
+
+let me start and go to my terminal 
+
+started and let me open my terminal
+
+let me also split my screen so you can see the nodes as well as the terminal window 
+命令演示介绍
+you can saw docker volume - - help  will give you the details on docker volume command and it is used like docker volume and the command and these are the options you can do create for creating a volume
+
+so this gives us the usage of the docker XX 命令 you can see we can use in this command with all these options  and I will just show you later
+
+if you see docker images - f and you can  provide some filters for example
+
+
+I can use docker volume LS command to list the volume and darker volume inspect command and the volume name to get the details about the volume
+
+if you want to remove the volume you can say docker volume RM and the volume name like my volume one here 
+
+I run docker PS command and we can see these three Jenkins containers are running
+
+结束语：
+  I hope  now you understand the concept of docker volumes and you can now use it in your akka
+projects
+ I hope this all was very useful and interesting to you
+ I will meet you in the next episode of docker， 
+ 
+  thank you for watching

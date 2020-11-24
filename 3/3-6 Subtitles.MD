@@ -10,7 +10,7 @@ In my demo, the sidecar provides application content.
 First, create a HTMl page in html folder
 Second, create a data container based on alpine linux image.
 - Create a data container   
-        `docker run -d -it --name myData  --mount type=bind,source="$(pwd)"/html,target=/usr/share/nginx/html/ alpine:latest` 
+        `docker run -d --name myData  --mount type=bind,source="$(pwd)"/html,target=/usr/share/nginx/html/ alpine:latest` 
 Next, 
 - Verify data  
         `docker exec -it myData /bin/sh`    
@@ -32,7 +32,8 @@ And than, Stop myData to verify my assumption
 Check data,
  - Verify data            
 `docker exec -it myNginx /bin/sh`        
-`curl 172.17.0.2:80/index.html`
+`curl 172.17.0.2:80/in
+dex.html`
 - Stop Container  
 ` docker container stop  myNginx`  
 
