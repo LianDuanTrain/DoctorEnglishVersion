@@ -1,0 +1,45 @@
+# Summary 
+Hello and welcome to this session, using Docker Maven Image build java Springboot project. 
+
+
+How to use Maven Docker image build a java project?
+How to run Meavn image as non-root ?
+
+Before build Springboot project, let go over the it. The project four ,  getUsers , createUser API, updateUser  and deleteUser. The API data store in memory.
+
+  - First, try Add User infomataion  
+    `curl -H "Accept: application/json" -H "Content-type: application/json" -d "{\"lastName\":\"AA3\",\"firstName\":\"BB3\"}" -X POST localhost:9999/users`
+  - And then get User List: 
+    `curl localhost:9999/users`
+- You can download Project from :  
+- https://github.com/LianDuanTrain/DockerSpringBootDemo 
+- Upload the download source code to mvn folder in my linux box.  
+
+What is Maven?   
+Apache Maven is a cornerstone of Java development, and the most used build management tool for Java.  
+
+## How to use Maven Docker image build a java project?
+- First Get Docker maven Image  
+    `docker pull maven:3.6-jdk-8-openj9`  
+- And then Start container to build
+   `docker container run -it --name mvn001 -v /home/lian/mvn:/usr/src/mymaven -w /usr/src/mymaven maven:3.6-jdk-8-openj9 mvn clean package  -U -DskipTests`
+- Check build result
+   `cd target`    
+   `docker logs -f mvn001`
+
+- Next, if My code change, I have to run maven bnuild again, with different container name.   
+   `docker container start mvn001`   
+Did you find the different between first time container run and second time container?
+second time container run quick then first time container because container do not need download dependency jar files.
+
+Sinc the container run as root use, the target folder and its children files belong to root user. Could I Running Meavn image as non-root ?
+Yes,
+- First step, get user UID  
+root run 'cat /etc/passwd'
+- Second step, I have to clean up existing .m2 folder because .m2 owner is root. current user lian can not change any file in the folder.
+- Third step , Run container
+`docker container run -v ~/.m2:/var/maven/.m2 -v /home/lian/mvn:/usr/src/mymaven -w /usr/src/mymaven -ti --rm -u 1000 -e MAVEN_CONFIG=/var/maven/.m2  maven:3.6-jdk-8-openj9 mvn -Duser.home=/var/maven clean package  -U -DskipTests`  
+      
+
+
+
