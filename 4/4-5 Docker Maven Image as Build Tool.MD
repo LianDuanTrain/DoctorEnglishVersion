@@ -1,8 +1,9 @@
 # Docker Maven Image as Build Tool
+- Why we need Maven Docker image build JAVA project?
 - How to use Maven Docker image build a java project?  
 - How to run Meavn image as non-root?  
-
-## How to use Maven Docker image build a java project?
+## Why we need Maven Docker image build JAVA project?  
+## How to use Maven Docker image build a Java project?
 - Java project over view 
   - Add User: 
     `curl -H "Accept: application/json" -H "Content-type: application/json" -d "{\"lastName\":\"AA3\",\"firstName\":\"BB3\"}" -X POST localhost:9999/users`

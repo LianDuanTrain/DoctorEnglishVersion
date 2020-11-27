@@ -2,7 +2,8 @@
 Hello and welcome to this session, using Docker Maven Image build java Springboot project. 
 
 
-How to use Maven Docker image build a java project?
+How to use Maven Docker image build a JAVA project?
+Why we need Maven Docker image build JAVA project?
 How to run Meavn image as non-root ?
 
 Before build Springboot project, let go over the it. The project four ,  getUsers , createUser API, updateUser  and deleteUser. The API data store in memory.
@@ -17,7 +18,10 @@ Before build Springboot project, let go over the it. The project four ,  getUser
 
 What is Maven?   
 Apache Maven is a cornerstone of Java development, and the most used build management tool for Java.  
-
+## Why we need Maven Docker image build JAVA project?
+- Java language need to build and then Run
+- Befroe I create Multi-stage Docker Build, best practice is verify Java code and Mave build script  in my local box via Maven Docker image.
+-  Maven Docker image  can work as build note in CI/CD tool
 ## How to use Maven Docker image build a java project?
 - First Get Docker maven Image  
     `docker pull maven:3.6-jdk-8-openj9`  
@@ -39,6 +43,9 @@ root run 'cat /etc/passwd'
 - Second step, I have to clean up existing .m2 folder because .m2 owner is root. current user lian can not change any file in the folder.
 - Third step , Run container
 `docker container run -v ~/.m2:/var/maven/.m2 -v /home/lian/mvn:/usr/src/mymaven -w /usr/src/mymaven -ti --rm -u 1000 -e MAVEN_CONFIG=/var/maven/.m2  maven:3.6-jdk-8-openj9 mvn -Duser.home=/var/maven clean package  -U -DskipTests`  
+
+I hope  now you can use Maven Docker Image as build tool in your projects  
+I will meet you in the next episode of docker，
       
 
 
