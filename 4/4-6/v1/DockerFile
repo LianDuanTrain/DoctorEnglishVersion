@@ -1,0 +1,18 @@
+FROM openjdk:8-jre-slim
+LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
+ENV APP_Home=/home/microservice
+#Default value
+ARG jarName=demo.jar 
+ENV APP_Name=${jarName} 
+# OS update
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install --assume-yes apt-utils;
+COPY ${APP_Name} ${APP_Home}/${APP_Name}
+RUN groupadd -r microservice && useradd -r -g microservice microservice ; \
+                 chown -R microservice:microservice "${APP_Home}";  
+USER microservice
+WORKDIR ${APP_Home} 
+EXPOSE 9999
+# Below format ENTRYPOINT does not support the ENV parameter 
+# ENTRYPOINT ["java","-jar","${APP_Home}/${APP_Name}"]
+ENTRYPOINT java -jar ${APP_Name}

@@ -31,9 +31,9 @@ Tag is  <Private Docker Repository IP/Name:Port>/<repo-name>:<tag>
 - Get Digest  
 `curl -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X GET  http://192.168.31.231:5000/v2/mynginx/manifests/v1 2>&1 | grep Docker-Content-Digest | awk '{print ($3)}'`  
 - Delete image  
-`curl -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X DELETE http://192.168.31.231:5000/v2/mynginx/manifests/v1/sha256:682f792503be45000b59d22b1b4a50683f93fbb159db12e1098d007e6707afdb`
+`curl -v --silent -H "Accept: application/vnd.docker.distribution.manifest.v2+json" -X DELETE http://192.168.31.231:5000/v2/mynginx/manifests/sha256:86c85cc3166e24782c877fe772accf9813d04b70527402d79ea9dfe6c4b4e4b1`
 
-## How to release disk spacein Private Docker Repository 
+## How to release disk space in Private Docker Repository?
 - Run   
 `docker exec -it localDockerRegistry  /bin/registry garbage-collect  /etc/docker/registry/config.yml`
 

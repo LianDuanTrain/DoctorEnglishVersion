@@ -1,21 +1,27 @@
-4-6 Create Microsservice(SpringBoot) Image
+# Create Springboot Microservice Docker Image
+- How to create a runable Springboot Microservice Docker Image?  
+- How to enhance Docker image security?  
+- How to reduce Docker image file size?  
+
+## How to create a runable Springboot Microservice Docker Image? 
+
+
+## How to enhance Docker image security?  
+
+## How to reduce Docker image file size?  
 
 DockerFile CMD
--------------------
 COPY
 USER 
-MAINTAINER
 LABEL 
 ENV
--------------------
 ARG
 EXPOSE 
 ENTRYPOINT 
 CMD
 
-MicrosserviceDockerFileV1
-    FROM openjdk:8-jre-slim
-    MAINTAINER  Lian
+MicroserviceDockerFileV1
+    FROM openjdk:8-jdk
     LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
     ENV APP_Home=/home/microservice
     #Default value
@@ -43,10 +49,9 @@ Build Docker Image
     docker logs microsservicv1 
 
 
-MicrosserviceDockerFileV2
+MicroserviceDockerFileV2
 
     FROM openjdk:8-jre-slim
-    MAINTAINER  Lian
     LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
     ENV APP_Home=/home/microservice
     #Default value
@@ -69,7 +74,7 @@ Build Docker Image
     docker container rm -f microsservicv2
     docker logs microsservicv2 
 
-MicrosserviceDockerFileV3
+MicroserviceDockerFileV3
     FROM openjdk:8-jre-slim
     MAINTAINER  Lian
     LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"

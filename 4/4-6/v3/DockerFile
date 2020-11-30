@@ -1,0 +1,14 @@
+FROM openjdk:8-jre-slim
+LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
+ENV APP_Home=/home/microservice
+#Default value
+ARG jarName=demo.jar 
+ENV APP_Name=${jarName}  
+COPY ${APP_Name} ${APP_Home}/${APP_Name}
+RUN groupadd -r microservice && useradd -r -g microservice microservice ; \
+                 chown -R microservice:microservice "${APP_Home}";
+USER microservice
+WORKDIR ${APP_Home} 
+EXPOSE 9999
+ENTRYPOINT ["java","-jar"]
+CMD demo.jar
