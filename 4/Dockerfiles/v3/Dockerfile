@@ -8,7 +8,7 @@ LABEL version="V 3.0" description="Springboot Microservice - CRUD User" by="Lian
 # Copy jar file from local to image
 COPY target/demo-0.0.1-SNAPSHOT.jar /myMicroservice/demo.jar
 # Run /bin/bash
-# Add user and user group
+# apt Update， Add user and user group
 RUN  apt-get update && apt-get install --assume-yes apt-utils; \
      groupadd -r microservice && useradd -r -g microservice microservice;  \
      chown -R microservice:microservice /myMicroservice;

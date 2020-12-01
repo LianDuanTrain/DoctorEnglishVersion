@@ -15,8 +15,8 @@ There are commands,  FROM, LABEL, COPY, EXPOSE, ENTRYPOINT in  Dockerfile.
    FROM command decleor  Parent Image , the image is openjdk:8-jdk.
    LABEL command Add metadata to an image, the format is key value pare.
    ADD command has two parts. first , second, target
-   EXPOSE command Instruc image lister port, the EXPOSE is only decleor port but do not open port. the java code open lister port on 9999 
-   ENTRYPOINT command is able to start a thread via java -jar and jar name, when Container start.
+   EXPOSE command instruction image lister port, the EXPOSE is only decleor port but does not open port. the java code open lister port on 9999 
+   ENTRYPOINT command is able to start a thread via java -jar and jar file name, when Container start.
 - DockerFile 4-6/v1/Dockerfile
 - and then, Build Docker Image 
   `docker build -t microservic:v1 .`  
@@ -36,17 +36,18 @@ There are commands,  FROM, LABEL, COPY, EXPOSE, ENTRYPOINT in  Dockerfile.
 - Stop container       
 `docker container stop microservicv1`  
 
+I had a runable Springboot Microservice Docker Image. 
 
 ## How to enhance Docker image security? 
-- Enhance Items 
+- I have a doto list for security 
    - Update OS packages
    - Create a user to run java -jar command, do not run as root user
    - Replace COPY with ADD because COPY is only copy local file, ADD is able to copy file from network.
 - Go DockerFile and see the change 4-6/v2/Dockerfile
   There are commands,  RUN, COPY, USER, WORKDIR, CMD in  Dockerfile.
    
-   ADD command has two parts. first , second, target
-   RUN command  is run in a shell, which by default is /bin/sh -c on Linux or cmd /S /C on Windows 
+   ADD command has two parts. first source file , second, target file
+   RUN command  is run in a shell, which by default is /bin/sh  on Linux or cmd /S /C on Windows 
    WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT
    The main purpose of a CMD is to provide defaults for an executing container.
 
@@ -66,18 +67,17 @@ There are commands,  FROM, LABEL, COPY, EXPOSE, ENTRYPOINT in  Dockerfile.
      `curl 172.17.0.3:9999/users`  
 - Stop container       
 `docker container stop microservicv2`  
-- Haskell Dockerfile Linter   
-  A smarter Dockerfile linter that helps you build best practice Docker images.   
+- Haskell Dockerfile Linter is security tool, it can verify Dockerfile and give you build best practice recommendation on Docker images.     
   `docker container run --rm -i --name hadolint  hadolint/hadolint:latest-alpine< Dockerfile`
 
-
-## How to reduce Docker image size?  
+I had a runable and secure  Springboot Microservice Docker Image. 
+## How  to hance performance？ reduce Docker image size.
 - Todo list:
    - Use small parent image  
    - Reduce docker image layers 
 - Go DockerFile and see the change, DockerFile 4-6/v3/Dockerfile
   use openjdk:8-jre-slim image because I do not compile java code, I have a jar file already.
-  Morge RUNs command to one line.
+  One RUN command creates one image layer so merge RUN commands to one RUN command.  
 - Build Docker image 
   `docker build -t microservic:v3 .` 
 - and then, Compare images size  
@@ -91,11 +91,13 @@ There are commands,  FROM, LABEL, COPY, EXPOSE, ENTRYPOINT in  Dockerfile.
 - Stop container       
 `docker container stop microservicv3`
 
-## How to use environment variable in Dockerfile? 
+I had a runable, secure, and small size  Springboot Microservice Docker Image.
+## How to make stable Dockerfile? use environment variable replace hard code items. How to do that?
 Read build arguments and pass arguments to environment variable
 - Let see the new comamnd ARG and  ENV in DockerFile  
-  ARG command defines a variable that users can pass at build-time
+  ARG command defines a variable that users can pass at build-time ans support default value.
   ENV comand instruction sets the environment variable
+  Other cmmand can use $ Braces and ENV variable name
 
 - and then , Build docekr image user defaule value  
   `docker build -t microservic:v4 .`     
@@ -111,6 +113,7 @@ Read build arguments and pass arguments to environment variable
 `docker exec -it microservicv4 /bin/sh`
 - Finally, Stop container       
 `docker container stop microservicv4`  
+I had a runable, secure, , small size , and Parameterization Springboot Microservice Docker Image.
 #End 
 I hope this all was very useful and interesting to you. 
 I will meet you in the next episode of docker. 
