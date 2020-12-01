@@ -3,7 +3,7 @@
 # V1 : FROM, LABEL, ADD, EXPOSE, ENTRYPOINT
 # V2 : RUN, COPY, USER, WORKDIR, CMD 
 # V4 : ARG, ENV
-# V5 :  FROM XXXX AS stage name, - COPY --from=stage name
+# V5 :  FROM XXXX AS stage name, - COPY --from=stage name /file
 
 # Stage One - compile Java src code 
 #
@@ -23,7 +23,7 @@ USER build
 # Switch WORKDIR
 WORKDIR ${APP_Build_Home}
 # Build
-RUN mvn -U -DskipTests=true -f pom.xml clean package
+RUN mvn -DskipTests=true -f pom.xml clean package
 #
 # Stage Two - Create Microservice Image
 #

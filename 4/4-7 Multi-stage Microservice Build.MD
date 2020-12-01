@@ -1,18 +1,17 @@
 # Docker Multi-stage Build
-- What is Docker Multi-stage build?  
+- What is Docker Multi-stage builds?  
 - How to implement Multi-stage build in Springboot Microservice Docker Image? 
 
-# What is Docker Multi-stage build?  
+# What is Docker Multi-stage builds?  
 - Optimize Dockerfiles
 - Keep the image size down
 
 # How to implement Multi-stage build in Springboot Microservice Docker Image? 
 
 - Dockerfile Commands  
-   - FROM XXXX AS stage name
-   - COPY --from=stage name
-- Dockerfiles
-- /v5/Dockerfile
+   - FROM XXXX **AS stage name**
+   - COPY **--from=stage name /file or /folder***
+- Dockerfiles/v5/Dockerfile
 - Build  
   `docker build -t microservic:v5 .`  
 - Image inspect  
