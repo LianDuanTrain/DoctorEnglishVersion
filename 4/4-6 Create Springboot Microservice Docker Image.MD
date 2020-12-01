@@ -2,97 +2,97 @@
 - How to create a runable Springboot Microservice Docker Image?  
 - How to enhance Docker image security?  
 - How to reduce Docker image file size?  
+- How to use environment variable in Dockerfile?  
 
 ## How to create a runable Springboot Microservice Docker Image? 
+- Two major parts are in Docker Image   
+   - Copy jarFile from local to image
+   - Run jarFile
+- DockerFile 4-6/v1/Dockerfile
+- Build  
+  `docker build -t microservic:v1 .`  
+- Image inspect  
+  `docker image inspect microservic:v1`
+- Run Container   
+  `docker container run -d --name microservicv1 --rm -p 9999:9999  microservic:v1`   
+- Check Springboot log
+`docker logs microservicv1`  
+- Check jar file 
+`docker exec -it microservicv1 /bin/sh`
+- Test APIs
+    - Add User  
+     `curl -H "Accept: application/json" -H "Content-type: application/json" -d '{"lastName":"Duan","firstName":"Lian"}' -X POST 172.17.0.3:9999/users`  
+    - Find users  
+     `curl 172.17.0.3:9999/users`  
+- Stop container       
+`docker container stop microservicv1`
 
+## How to enhance Docker image security?
+- Enhance Items 
+   - Update OS packages
+   - Do not run as root user
+   - Replace COPY with ADD
+- DockerFile 4-6/v2/Dockerfile
+- Build  
+  `docker build -t microservic:v2 .` 
+- Image inspect  
+  `docker image inspect microservic:v2`    
+- Run Container   
+  `docker container run -d --name microservicv2 --rm -p 9999:9999  microservic:v2`   
+- Check Springboot log
+`docker logs microservicv2`  
+- Check jar file 
+`docker exec -it microservicv2 /bin/sh`
+- Test APIs
+    - Add User  
+     `curl -H "Accept: application/json" -H "Content-type: application/json" -d '{"lastName":"Duan","firstName":"Lian"}' -X POST 172.17.0.3:9999/users`  
+    - Find users  
+     `curl 172.17.0.3:9999/users`  
+- Stop container       
+`docker container stop microservicv2`
+- Haskell Dockerfile Linter  
+  `docker container run --rm -i --name hadolint  hadolint/hadolint:latest-alpine< Dockerfile`
 
-## How to enhance Docker image security?  
+## How to reduce Docker image file size?
+- Todo list:
+   - Use small parent image  
+   - Reduce docker image layers   
+- DockerFile 4-6/v3/Dockerfile
+- Build  
+  `docker build -t microservic:v3 .` 
+- Compare images size  
+  `docker images`  
+- Image inspect  
+  `docker image inspect microservic:v3`    
+- Run Container   
+  `docker container run -d --name microservicv3 --rm -p 9999:9999  microservic:v3`   
+- Check Springboot log
+`docker logs microservicv3`  
+- Check jar file 
+`docker exec -it microservicv2 /bin/sh`
+- Stop container       
+`docker container stop microservicv3`
 
-## How to reduce Docker image file size?  
-
-DockerFile CMD
-COPY
-USER 
-LABEL 
-ENV
-ARG
-EXPOSE 
-ENTRYPOINT 
-CMD
-
-MicroserviceDockerFileV1
-    FROM openjdk:8-jdk
-    LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
-    ENV APP_Home=/home/microservice
-    #Default value
-    ARG jarName=demo.jar 
-    ENV APP_Name=${jarName} 
-    # OS update
-    ARG DEBIAN_FRONTEND=noninteractive
-    RUN apt-get update && apt-get install --assume-yes apt-utils;
-    COPY ${APP_Name} ${APP_Home}/${APP_Name}
-    RUN groupadd -r microservice && useradd -r -g microservice microservice ; \
-                     chown -R microservice:microservice "${APP_Home}";  
-    USER microservice
-    WORKDIR ${APP_Home} 
-    EXPOSE 9999
-    # Below format ENTRYPOINT does not support the ENV parameter 
-    # ENTRYPOINT ["java","-jar","${APP_Home}/${APP_Name}"]
-    ENTRYPOINT java -jar ${APP_Name}
-Build Docker Image
-    docker build --build-arg jarName=demo.jar -f MicrosserviceDockerFileV1  -t microsservic:v1 . 
-    docker container run -d --name microsservicv1 --rm -p 9999:9999  microsservic:v1 
-    docker container run -d --name microsservicv1 -p 9999:9999 microsservic:v1 demo.jar
-    docker container run -d --name microsservicv1  microsservic:v1 /bin/bash -c "tail -f /dev/null" 
-    docker exec -it microsservicv1 /bin/sh
-    docker container rm -f microsservicv1
-    docker logs microsservicv1 
-
-
-MicroserviceDockerFileV2
-
-    FROM openjdk:8-jre-slim
-    LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
-    ENV APP_Home=/home/microservice
-    #Default value
-    ARG jarName=demo.jar 
-    ENV APP_Name=${jarName}  
-    COPY ${APP_Name} ${APP_Home}/${APP_Name}
-    RUN groupadd -r microservice && useradd -r -g microservice microservice ; \
-                     chown -R microservice:microservice "${APP_Home}";
-    USER microservice
-    WORKDIR ${APP_Home} 
-    EXPOSE 9999
-    CMD java -jar ${APP_Name}
-Build Docker Image
-    docker build --build-arg jarName=demo.jar -f MicrosserviceDockerFileV2  -t microsservic:v2 . 
-    docker container run -d --name microsservicv2 -p 9999:9999  microsservic:v2 test.jar
-    docker logs microsservicv2
-    docker container run -d --name microsservicv2 -p 9999:9999 microsservic:v2 demo.jar
-    docker container run -d --name microsservicv2  microsservic:v1 /bin/bash -c "tail -f /dev/null" 
-    docker exec -it microsservicv2 /bin/sh
-    docker container rm -f microsservicv2
-    docker logs microsservicv2 
-
-MicroserviceDockerFileV3
-    FROM openjdk:8-jre-slim
-    MAINTAINER  Lian
-    LABEL version="1.0" description="Spring boot microservice - CRUD user" by="Lian"
-    ENV APP_Home=/home/microservice
-    #Default value
-    ARG jarName=demo.jar 
-    ENV APP_Name=${jarName}  
-    COPY ${APP_Name} ${APP_Home}/${APP_Name}
-    RUN groupadd -r microservice && useradd -r -g microservice microservice ; \
-                     chown -R microservice:microservice "${APP_Home}";
-    USER microservice
-    WORKDIR ${APP_Home} 
-    EXPOSE 9999
-    ENTRYPOINT ["java","-jar"]
-    CMD demo.jar
-Build Docker Image
-    docker build --build-arg jarName=demo.jar -f MicrosserviceDockerFileV3  -t microsservic:v3 . 
-    docker container run -d --name microsservicv3 -p 9999:9999  microsservic:v3 demo.jar
-    docker container rm -f microsservicv3
-    test.jar
-    docker logs microsservicv3   
+## How to use environment variable in Dockerfile? 
+Read build arguments and pass arguments to environment variable  
+- Let see the new comamnd in DockerFile 
+- Build  
+  `docker build -t microservic:v4 .`     
+  `docker build --build-arg inputAppFolderName=test -t microservic:v4 .`
+- Find images size  
+  `docker images`  
+- Image inspect  
+  `docker image inspect microservic:v4`    
+- Run Container   
+  `docker container run -d --name microservicv4 --rm -p 9999:9999  microservic:v4`   
+- Check Springboot log
+`docker logs microservicv4`  
+- Check jar file 
+`docker exec -it microservicv4 /bin/sh`
+- Test APIs
+    - Add User  
+     `curl -H "Accept: application/json" -H "Content-type: application/json" -d '{"lastName":"Duan","firstName":"Lian"}' -X POST 172.17.0.3:9999/users`  
+    - Find users  
+     `curl 172.17.0.3:9999/users`  
+- Stop container       
+`docker container stop microservicv4`

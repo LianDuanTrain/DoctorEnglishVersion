@@ -1,58 +1,116 @@
 # Summary 
-Hello and welcome to this session, we're gonna learn about Create Springboot Microservice Docker Images. 
+Hello and welcome to this session, we're gonna learn about Create Springboot Microservice Docker Images step by step. 
 
 - How to create a runable Springboot Microservice Docker Image?  
 - How to enhance Docker image security?  
-- How to reduce Docker image file size?  
+- How to reduce Docker image size?  
+- How to use environment variable in Dockerfile? 
 
-Before build Springboot Microservice project, let go over the Microservice. The Microservice has five APIs ,  getUsers, getUser, createUser , updateUser  and deleteUser. The Microservice data store in memory so after restart the Microservice, all data lost. 
+## How to create a runable Springboot Microservice Docker Image?   
+In previous session, I create a runable Springboot Microservice jar file. The jar file will be used to create Springboot Microservice Docker Image. when container start,  one thread need to run and listening user request. 
+DockerFile has two major parts, Copy jarFile from local to image and Run jarFile
+Let's go thought DockerFile to get detail.   
 
-  - First, try Add User API  
-    `curl -H "Accept: application/json" -H "Content-type: application/json" -d "{\"lastName\":\"AA3\",\"firstName\":\"BB3\"}" -X POST localhost:9999/users`
-  - And then Run getUsers API: 
-    `curl localhost:9999/users` 
-     
-
-- You can download Project from :  
-- https://github.com/LianDuanTrain/DockerSpringBootDemo/tree/buildJarFile   
-- Upload the download source code to mvn folder in my linux box.  
-
-What is Maven?   
-Apache Maven is a cornerstone of Java development, and the most used build management tool for Java.  
-## Why we need Maven Docker image build Springboot Microservice project?
-- Springboot Microservice project is Java based so need to build and then Run
-- Befroe I create Springboot Microservice Docker image, best practice are verify Java code, Mave build script, and Docker maven image env parameter setup  in my local box us Maven Docker image.
-- Maven Docker image  can work as build note in CI/CD tool
-  
-## How to use Maven Docker image build Springboot Microservice project?
-- First Get Docker maven Image  
-    `docker pull maven:3.6-jdk-8-openj9`  
-- And then Start container to build
-   `docker container run -it --name mvn001 -v /home/lian/mvn:/usr/src/mymaven -w /usr/src/mymaven maven:3.6-jdk-8-openj9 mvn clean package  -U -DskipTests`
-- Check build result
-   `cd target`    
-   `docker logs -f mvn001`
-
-- Next, change code change, and run maven bnuild again.   
-   `docker container start mvn001`  
-
-Did you find the different between first time container run and second time container?
-second time container run quick then first time container because container do not need download dependency jar files again.
-
-Sinc the container run as root use, the target folder and its children files belong to root user. Could I Running Meavn image as non-root user? The answer is yes.
-
-Before my demo,  delete .m2 and target folders because the folder owner is root user.
-
-Start the demo,
-- First step, get user UID  
-root run 'cat /etc/passwd'
-- Second step, I have to clean up existing .m2 folder because .m2 owner is root. current user lian can not change any file in the folder.
-- Third step , Run container
-`docker container run -v ~/.m2:/var/maven/.m2 -v /home/lian/mvn:/usr/src/mymaven -w /usr/src/mymaven -ti --rm -u 1000 -e MAVEN_CONFIG=/var/maven/.m2  maven:3.6-jdk-8-openj9 mvn -Duser.home=/var/maven clean package  -U -DskipTests`  
-
-I hope  now you can use Maven Docker Image as build tool in your projects  
-I will meet you in the next episode of docker，
-      
+There are commands,  FROM, LABEL, COPY, EXPOSE, ENTRYPOINT in  Dockerfile.
+   FROM command decleor  Parent Image , the image is openjdk:8-jdk.
+   LABEL command Add metadata to an image, the format is key value pare.
+   ADD command has two parts. first , second, target
+   EXPOSE command Instruc image lister port, the EXPOSE is only decleor port but do not open port. the java code open lister port on 9999 
+   ENTRYPOINT command is able to start a thread via java -jar and jar name, when Container start.
+- DockerFile 4-6/v1/Dockerfile
+- and then, Build Docker Image 
+  `docker build -t microservic:v1 .`  
+- next, Check Image detail   
+  `docker image inspect microservic:v1`
+- then, Start  Container   
+  `docker container run -d --name microservicv1 --rm -p 9999:9999  microservic:v1`   
+- Check Springboot log for microservic start detail infomation 
+`docker logs microservicv1`  
+- Go inside container to verify jar file 
+`docker exec -it microservicv1 /bin/sh`
+- next step, Testing two APIs
+    - Add User  
+     `curl -H "Accept: application/json" -H "Content-type: application/json" -d '{"lastName":"Duan","firstName":"Lian"}' -X POST 172.17.0.3:9999/users`  
+    - Find users  
+     `curl 172.17.0.3:9999/users`  
+- Stop container       
+`docker container stop microservicv1`  
 
 
+## How to enhance Docker image security? 
+- Enhance Items 
+   - Update OS packages
+   - Create a user to run java -jar command, do not run as root user
+   - Replace COPY with ADD because COPY is only copy local file, ADD is able to copy file from network.
+- Go DockerFile and see the change 4-6/v2/Dockerfile
+  There are commands,  RUN, COPY, USER, WORKDIR, CMD in  Dockerfile.
+   
+   ADD command has two parts. first , second, target
+   RUN command  is run in a shell, which by default is /bin/sh -c on Linux or cmd /S /C on Windows 
+   WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT
+   The main purpose of a CMD is to provide defaults for an executing container.
 
+
+- Next Build Docker Image   
+  `docker build -t microservic:v2 .`     
+- And then, start a  Container   
+  `docker container run -d --name microservicv2 --rm -p 9999:9999  microservic:v2`   
+- Check Springboot log
+`docker logs microservicv2`  
+- Go inside container to verify jar file   
+`docker exec -it microservicv2 /bin/sh`
+- next step, Testing two APIs
+    - Add User  
+     `curl -H "Accept: application/json" -H "Content-type: application/json" -d '{"lastName":"Duan","firstName":"Lian"}' -X POST 172.17.0.3:9999/users`  
+    - Find users  
+     `curl 172.17.0.3:9999/users`  
+- Stop container       
+`docker container stop microservicv2`  
+- Haskell Dockerfile Linter   
+  A smarter Dockerfile linter that helps you build best practice Docker images.   
+  `docker container run --rm -i --name hadolint  hadolint/hadolint:latest-alpine< Dockerfile`
+
+
+## How to reduce Docker image size?  
+- Todo list:
+   - Use small parent image  
+   - Reduce docker image layers 
+- Go DockerFile and see the change, DockerFile 4-6/v3/Dockerfile
+  use openjdk:8-jre-slim image because I do not compile java code, I have a jar file already.
+  Morge RUNs command to one line.
+- Build Docker image 
+  `docker build -t microservic:v3 .` 
+- and then, Compare images size  
+  `docker images`      
+- Next, Run Container   
+  `docker container run -d --name microservicv3 --rm -p 9999:9999  microservic:v3`   
+- Next step, Check Springboot log
+`docker logs microservicv3`  
+- Move to, Check jar file step 
+`docker exec -it microservicv2 /bin/sh`   
+- Stop container       
+`docker container stop microservicv3`
+
+## How to use environment variable in Dockerfile? 
+Read build arguments and pass arguments to environment variable
+- Let see the new comamnd ARG and  ENV in DockerFile  
+  ARG command defines a variable that users can pass at build-time
+  ENV comand instruction sets the environment variable
+
+- and then , Build docekr image user defaule value  
+  `docker build -t microservic:v4 .`     
+  next , try change app location folder
+  `docker build --build-arg inputAppFolderName=test -t microservic:v4 .`  
+- Image inspect  
+  `docker image inspect microservic:v4`    
+- next step , Run Container   
+  `docker container run -d --name microservicv4 --rm -p 9999:9999  microservic:v4`   
+- see Springboot log
+`docker logs microservicv4`  
+- Check jar file 
+`docker exec -it microservicv4 /bin/sh`
+- Finally, Stop container       
+`docker container stop microservicv4`  
+#End 
+I hope this all was very useful and interesting to you. 
+I will meet you in the next episode of docker. 
