@@ -5,14 +5,14 @@ Hello and welcome to this session, we're gonna learn about Docker Multi-stage bu
 - How to implement Multi-stage build in Springboot Microservice Docker Image?  
 
 # What is Docker Multi-stage builds?   
-Springboot Microservice Docker Image is in Befroe session. first, I use maven docker image compel java srouce code and create runable jar file. second, copy the jar file to JRE image and make a ENTRYPOINT in JRE image.
+I build Springboot Microservice Docker Image  in Befroe session. first, I use maven docker image compel java srouce code and create runable jar file. second, copy the jar file to JRE image and make a ENTRYPOINT in JRE image.
 Maintain two steps are not easy tasks, even go bhell script.
 
 Also,  It was  very common to have one Dockerfile to use for development (which contained everything needed to build your application), and a slimmed-down one to use for production, which only contained  application and exactly what was needed to run it.
 This called “builder pattern”. Maintaining two Dockerfiles is not ideal.
 
 Multi-stage builds can fix above issues, multi-stage builds has multiple FROM statements in  Dockerfile. 
-Each FROM instruction can use a different base, and each of them begins a new stage of the build. 
+Each FROM instruction can use a different base image, and each of them begins a new stage of the build. 
 I can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image. 
 
 - Optimize Dockerfiles
@@ -21,7 +21,7 @@ I can selectively copy artifacts from one stage to another, leaving behind every
 # How to implement Multi-stage build in Springboot Microservice Docker Image? 
 I'll show the demo.
 - There are two new Dockerfile Commands  
-   - FROM XXXX AS stage name, AS stage name  is magic key word, it likes hook for each layer. 
+   - FROM XXXX AS stage name, AS stage name  is magic key word, it likes hook for each stage. 
    - COPY --from=stage name/file or folder  --from=stage name is able to copy file or files from provisos stage
 - Dockerfiles/v5/Dockerfile
 
@@ -43,3 +43,6 @@ I'll show the demo.
      `curl 172.17.0.3:9999/users`  
 - Stop container       
 `docker container stop microservicv5`
+
+I hope  now you understand Docker Multi-stage build and can use Multi-stage build in your projects  
+I will meet you in the next episode of docker.
