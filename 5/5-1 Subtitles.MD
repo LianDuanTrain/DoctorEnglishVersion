@@ -1,5 +1,5 @@
 # Summary 
-Hello and welcome to this session on Docker Compose. we're go learn about Docker Compose.
+Hello and welcome to this session on Docker Compose. we're go learn about Docker Compose concept and run a demo step by step.
 
 - What is Docker Compose?
 - Why use Docker Compose in project?
@@ -10,9 +10,9 @@ Hello and welcome to this session on Docker Compose. we're go learn about Docker
 
 
 - What is Docker Compose?
-  Compose is a tool for defining and running multi-container Docker applications.
-  With Compose, you use a YAML file to configure your application’s services. The YAML file default name is docker-compose.yml.
-  Then, use a single command to create and start all the services from your configuration
+  Compose is a tool for defining and running multi- Docker container
+  In Compose, i use a YAML file to configure my application’s services. The YAML file default name is docker-compose.yml.
+  Docker Compose support a single command to create and start all the services from my configuration
 
 
 - Why use Docker Compose in project?
@@ -82,8 +82,8 @@ First, add  tag for Private Docker Repository, tag has two four parts, Private D
 
 
 - How to scale services?
-  Each service defined in Docker compose configuration can be scaled using below command.
-  Although services can be scaled, but you will run into port use error.
+  Each service defined in Docker compose configuration can be scaled using scale command.
+  Although services can be scaled, but you will run into port conflict error.
   Because all services run in one box. One port can not use in two same service. 
   This can be fix by assigning port range on the ports section of compose yaml file.
 

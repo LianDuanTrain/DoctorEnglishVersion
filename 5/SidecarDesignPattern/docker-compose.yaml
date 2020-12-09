@@ -1,0 +1,31 @@
+# SideCar Patten
+# https://docs.docker.com/compose/compose-file/
+version: "3.8"
+services:
+    warfile:
+        build: ./src
+        container_name: warfilev1
+        networks:
+            - dataNet
+        # SHORT SYNTAX， Named volume#
+        volumes:
+            - war-data:/var/lib/jetty/webapps  
+    jetty:
+        container_name: jetty94v1
+        image: jetty:9.4-jre8-slim
+        networks:
+            - webNet
+        depends_on:
+            - warfile
+        # LONG SYNTAX, Added in version 3.2 file format.   
+        volumes:
+            - type: volume # volume, bind, tmpfs or npipe
+              source: war-data
+              target: /var/lib/jetty/webapps            
+        ports:
+            - "8080:8080" 
+volumes:
+    war-data: 
+networks:
+    webNet:  
+    dataNet:    

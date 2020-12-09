@@ -1,7 +1,7 @@
-# Basic Docker Compose
+# Docker Compose
 - What is Docker Compose?
 - Why use Docker Compose in project?
-- How to create a simple Docker Compose?
+- How to create a Docker Compose file?
 - How to run Docker Compose?
 - How to scale services ?
 
@@ -10,19 +10,19 @@
 - YAML file
 - Single command - create,start,stop all the services 
 
-## Why need Docker Compose?
+## Why use Docker Compose in project?
 - Multiple isolated environments on a single host
 - Preserve volume data when containers are created
 - Only recreate containers that have changed
 - Variables and moving a composition between environments
 
 ## How to create a Docker Compose file?
-- docker container run -d --name microsservic --rm -p 9999:9999  microsservic:v5
+- docker container run -d --name microservic --rm -p 9999:9999  microsservic:v5
 - docker-compose.yml  
 ``` 
 version: "3.8"     
 services:          
-    microsservic:        
+    microservic:        
         ports:        
             - 9999:9999        
         image: 192.168.31.231:5000/microservic:v5  
