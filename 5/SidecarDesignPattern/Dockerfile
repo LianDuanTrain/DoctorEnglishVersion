@@ -4,7 +4,6 @@
 # V2 : RUN, COPY, USER, WORKDIR, CMD 
 # V4 : ARG, ENV
 # V5 : FROM XXXX AS stage name, - COPY --from=stage name /file   
-# V6 : VOLUME
 # Microservice Build  as War
 #
 FROM maven:3.6-jdk-8-openj9 AS build
@@ -27,8 +26,12 @@ ENV APP_Home=/var/lib/jetty/webapps
 ENV APP_Build_Home=/home/build
 ARG warName=demo.war 
 ENV APP_Name=${warName}
-RUN mkdir -p /var/lib/jetty/webapps
 RUN apk add --no-cache bash
+RUN mkdir -p /var/lib/jetty/webapps
+# add user and group
+RUN addgroup -g 1000 jetty; 
+RUN adduser --system jetty -G jetty; 
+RUN chown -R jetty:jetty "${APP_Home}"; 
+USER jetty
 COPY --from=build ${APP_Build_Home}/target/${APP_Name} ${APP_Home}/${APP_Name}
-# VOLUME  ${APP_Home}
 ENTRYPOINT /usr/bin/tail -f /dev/null

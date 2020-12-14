@@ -1,0 +1,7 @@
+# SideCar Patten
+# https://docs.docker.com/compose/compose-file/
+version: "3.8"
+services:  
+    jetty:
+        ports:
+            - "8888:8080"     
