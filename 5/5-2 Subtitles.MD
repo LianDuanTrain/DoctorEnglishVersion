@@ -40,7 +40,7 @@ next step
 `docker exec -it -u root jetty94v1 /bin/bash`  
     `apt-get update && apt-get install iputils-ping`   
     `apt-get install net-tools`  
-`docker exec -it -u root  warfile /bin/sh`  
+`docker exec -it -u root  warfilev1 /bin/sh`  
     `apk add --no-cache ping`  
 `docker network inspect XXX_dataNet`  
 `docker network inspect XXX_webNet`  
