@@ -1,25 +1,25 @@
-3-1 Run First Docker
-    1 Start Up a container
-    2 Stop and Clean Up a container
-    3 Docker extension of VS Code
+# Run First Docker
+     1 Start Up a container
+     2 Stop and Clean Up a container
+     3 Docker extension of VS Code
 --------------------------------------------------------  
-    Status Check:
+#   Status Check:
         service docker status
 --------------------------------------------------------         
-    1 Start Up:
+#   Start Up:
         docker image pull jetty:9.4.31-jre8 
         docker container run jetty:9.4.31-jre8 
         docker container ps
         docker  exec -it {containerID} /bin/bash
         curl localhost:8080
 --------------------------------------------------------        
-    2 Stop and Clean Up:
+#   Stop and Clean Up:
         docker container stop {containerID}
         docker container ls -a
         docker container rm {containerID}
         docker rmi jetty:9.4.31-jre8
 --------------------------------------------------------        
-    3 Docker extension from VS Code:
+#   Docker extension from VS Code:
     If you install Docker extension in your local:
         A) Uninstall Docker extension from VS Code. 
         B) Close all VS Code windows.

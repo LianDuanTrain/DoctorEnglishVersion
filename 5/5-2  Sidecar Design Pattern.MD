@@ -1,4 +1,4 @@
-# Sidecar Design Patten 
+# Sidecar Design Pattern 
 - What is sidecar design pattern?
 - How to use Docker compose implement sidecar design pattern?
   

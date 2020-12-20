@@ -1,12 +1,12 @@
-3-3 Docker Nework
-    Type:
+# Docker Nework
+##  Type:
         bridge
         host
         overlay
         macvlan
         none       
-    Commands:   
-        Default Bridge
+##  Commands:  
+###     Default Bridge
             Docker Network Image - http://img.scoop.it/bmExZyvGWidultcwx9hCb7nTzqrqzN7Y9aBZTaXoQ8Q=
             docker network ls
             docker network inspect bridge
@@ -18,12 +18,9 @@
             ping {containerName}       
             cat /etc/hosts
             cat /etc/resolv.conf 
-            docker container stop alpine1
-
-            
+            docker container stop alpine1   
             docker container stop alpine2
-
-        Create a Bridge
+###     Create a Bridge
             docker network create --driver bridge alpine-net
             docker network inspect alpine-net
             docker run -itd --rm --name=apline1 --network=alpine-net alpine

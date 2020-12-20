@@ -12,7 +12,7 @@ First add parameter into docker-compose-env.yaml
 -  ${parameter name:-default value}
     - ${IMAGETAG:-jetty:9.4.31-jdk8-slim}
 
-add key vaule pare in .evn file. # Comment key word
+add key vaule pare in .evn file. use # to add Comment
 -  .env file content:
     - IMAGETAG=jetty:9.4.35-jre8
   - 
