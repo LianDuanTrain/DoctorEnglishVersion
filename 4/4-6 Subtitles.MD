@@ -1,5 +1,5 @@
 # Summary 
-Hello and welcome to this session, we're gonna learn about Create Springboot Microservice Docker Images step by step. 
+Hello and welcome to this session, we're gonna learn about Create Spring Boot Microservice Docker Images step by step. 
 
 - How to create a runable Springboot Microservice Docker Image?  
 - How to enhance Docker image security?  
